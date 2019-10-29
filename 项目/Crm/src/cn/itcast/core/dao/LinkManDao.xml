@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.itcast.core.dao.LinkManDao">
+	<select id="selectLinkManList" parameterType="linkMan" resultType="linkMan">
+		select * from linkman
+		<where>
+			<if test="link_name != null">
+				link_name like "%"#{link_name}"%"
+			</if>
+		</where>
+		<if test="start !=null and rows != null">
+			limit #{start},#{rows}
+		</if>
+	</select>
+	<select id="selectLinkManListCount" parameterType="linkMan" resultType="int">
+		select count(*) from linkman
+		<where>
+			<if test="link_name != null">
+				link_name like "%"#{link_name}"%"
+			</if>
+		</where>
+	</select>
+	<select id="selectByLinkManId" parameterType="int" resultType="linkMan">
+		select * from linkman where link_id=#{id}
+ 	</select>
+ 	<update id="update" parameterType="linkMan">
+ 		update linkman set link_name=#{link_name},cust_name=#{cust_name},link_sex=#{link_sex},link_phone=#{link_phone},
+ 			link_mobile=#{link_mobile} where link_id=#{link_id}
+ 	</update>
+ 	<delete id="delete" parameterType="int">
+ 		delete from linkman where link_id in
+ 		<foreach collection="array" item="ids" open="(" separator="," close=")">
+				#{ids}
+		</foreach>
+ 	</delete>
+ 	<insert id="insert" parameterType="cn.itcast.core.bean.LinkMan">
+ 		insert into linkman (link_id,link_name,cust_name,link_sex,link_phone,link_mobile)
+ 		value(#{link_id},#{link_name},#{cust_name},#{link_sex},#{link_phone},#{link_mobile})
+ 	</insert>
+ 	<select id="getLinkManForExcel" resultType="linkMan">
+ 		select * from linkman
+ 	</select>
+ 	<insert id="importLinkManForExcel" parameterType="java.util.List">
+ 		insert into linkman (link_id,link_name,cust_name,link_sex,link_phone,link_mobile)
+ 		value
+ 		<foreach collection="list" item="item" index="index" separator=",">
+ 			(#{item.link_id},#{item.link_name},#{item.cust_name},#{item.link_sex},#{item.link_phone},#{item.link_mobile})
+ 		</foreach>
+ 	</insert>
+</mapper>

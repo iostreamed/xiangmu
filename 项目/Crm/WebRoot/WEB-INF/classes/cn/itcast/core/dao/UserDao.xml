@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.itcast.core.dao.UserDao" >
+  
+  	 <insert id="register" parameterType="cn.itcast.core.bean.User" >
+    insert into sys_user (userid, username, userpassword, nickname,userrole)
+    values (#{userid,jdbcType=BIGINT}, #{username,jdbcType=VARCHAR}, 
+     #{userpassword,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR},
+     #{userrole,jdbcType=VARCHAR})
+  </insert>
+	
+  <select id="login" resultType="cn.itcast.core.bean.User" parameterType="String">
+     
+     select * from sys_user where username = #{username}
+  
+  </select>
+	
+	<update id="updateUser" parameterType="cn.itcast.core.bean.User">
+		update sys_user set username=#{username},userpassword=#{userpassword},nickname=#{nickname},
+			userrole=#{userrole},image=#{image} where userid=#{userid}
+	</update>
+	
+	<select id="selectUserList" parameterType="cn.itcast.core.bean.User" resultType="cn.itcast.core.bean.User">
+		select * from sys_user 
+		<if test="start !=null and rows != null">
+			limit #{start},#{rows}
+		</if>
+	</select>
+	<select id="selectUserListCount" parameterType="cn.itcast.core.bean.User" resultType="int">
+		select count(*) from sys_user
+	</select>
+	<select id="getUserById" parameterType="int" resultType="cn.itcast.core.bean.User">
+		select * from sys_user where userid=#{id}
+	</select>
+	<delete id="delete" parameterType="int">
+		delete from sys_user where userid=#{id}
+	</delete>
+</mapper>

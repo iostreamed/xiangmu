@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.smbms.dao.UserMapper">
+	<resultMap type="User" id="userMap">
+		<id column="id" property="id"/>
+		<result column="userCode" property="usercode"/>
+		<result column="userName" property="username"/>
+		<result column="userPassword" property="password"/>
+		<result column="gender" property="gender"/>
+		<result column="birthday" property="birthday"/>
+		<result column="phone" property="phone"/>
+		<result column="address" property="address"/>
+		<result column="userRole" property="userRole"/>
+		<result column="createBy" property="createBy"/>
+		<result column="createDate" property="createDate"/>
+		<result column="modifyBy" property="modifyBy"/>
+		<result column="modifyDate" property="modifyDate"/>
+		<result column="image" property="image"/>
+	</resultMap>
+	<resultMap type="User" id="userRoleMap" extends="userMap">
+		<association property="role" javaType="Role">
+			<id column="id" property="id"/>
+			<result column="roleCode" property="rolecode"/>
+			<result column="roleName" property="roleName"/>
+			<result column="modifyBy" property="modifyBy"/>
+			<result column="modifyDate" property="modifyDate"/>
+			</association>		
+	</resultMap>
+	<resultMap type="Role" id="roleMap">
+		<id column="id" property="id"/>
+		<result column="roleCode" property="rolecode"/>
+		<result column="roleName" property="roleName"/>
+	</resultMap>
+	<!-- 登录系统 -->
+	<select id="login" resultMap="userRoleMap">
+		select u.*,r.roleName from smbms_user u,smbms_role r where userCode=#{usercode} and u.userRole=r.id
+	</select>
+	<!-- 查询用户角色 -->
+	<select id="findRole" resultMap="roleMap">
+		select * from smbms_role
+	</select>
+	<!-- 查询所有用户 -->
+	<select id="findAll" resultMap="userRoleMap">
+		select u.*,r.roleName from smbms_user u,smbms_role r where u.userRole=r.id
+			<if test="username != null and username != ''">
+				and u.userName like CONCAT("%",#{username},"%")
+			</if>
+			<if test="userRole != null and userRole != ''">
+				and u.userRole=#{userRole}
+			</if>
+				limit #{start},#{size}
+	</select>
+	<!-- 查询用户数量 -->
+	<select id="findCount"  resultType="int">
+		select count(1) from smbms_user u,smbms_role r where u.userRole=r.id
+		<if test="username != null and username != ''">
+			and u.userName like CONCAT("%",#{username},"%")
+		</if>
+		<if test="userRole != null and userRole != ''">
+			and u.userRole=#{userRole}
+		</if>
+	</select>
+	<!-- 查询用户账户判断用户是否存在 -->
+	<select id="findUserCode" resultMap="userMap">
+		select * from smbms_user where userCode=#{usercode}
+	</select>
+	<!-- 添加用户 -->
+	<insert id="addUser" parameterType="User">
+		insert into smbms_user (userCode,userName,userPassword,gender,birthday,phone,address,userRole)
+		value(#{usercode},#{username},#{password},#{gender},#{birthday},#{phone},#{address},#{userRole})
+	</insert>
+	<!-- 显示用户信息 -->
+	<select id="ViewUser" resultMap="userRoleMap">
+		select u.*,r.roleName from smbms_user u,smbms_role r where u.userRole=r.id and u.id=#{id}
+	</select>
+	<!-- 修改用户信息 -->
+	<update id="modifyUser" parameterType="User">
+		update smbms_user set userName=#{username},gender=#{gender},birthday=#{birthday},phone=#{phone},address=#{address},userRole=#{userRole} where id=#{id}
+	</update>
+	<!-- 删除用户 -->
+	<delete id="deleteUser" parameterType="Integer">
+		delete from smbms_user where id=#{id}
+	</delete>
+	<!-- 修改密码 -->
+	<update id="modifyPwd" parameterType="Integer">
+		update smbms_user set userPassword=#{password} where id=#{id}
+	</update>
+	<!-- 上传图片  -->
+	<update id="addImage" parameterType="User">
+		update smbms_user set image=#{image} where id=#{id}
+	</update>
+</mapper>

@@ -1,0 +1,60 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-4.0.xsd 
+		http://www.springframework.org/schema/mvc 
+		http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd 
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context-4.0.xsd 
+		http://www.springframework.org/schema/aop 
+		http://www.springframework.org/schema/aop/spring-aop-4.0.xsd 
+		http://www.springframework.org/schema/tx 
+		http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+		http://www.springframework.org/schema/task
+   		http://www.springframework.org/schema/task/spring-task-4.0.xsd
+		http://code.alibabatech.com/schema/dubbo        
+		http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+		
+		<!-- 加载属性文件 -->
+		<context:property-placeholder location="classpath:resource.properties"/>
+		<!-- 配置扫描 器 -->
+		<context:component-scan base-package="cn.itcast.core.web.controller"/>
+		<!-- 配置处理器映射器  适配器 -->
+		<mvc:annotation-driven/>
+		
+		<!-- 配置视图解释器 jsp -->
+		<bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+			<property name="prefix" value="/WEB-INF/jsp/"/>
+			<property name="suffix" value=".jsp"/>
+		</bean>
+		
+		<mvc:interceptors>
+	<mvc:interceptor>
+		<!-- 所有的请求都进入拦截器 -->
+		<mvc:mapping path="/customer/**" />
+		<mvc:mapping path="/linkMan/**"/>
+		<mvc:mapping path="/visit/**"/>
+		<mvc:mapping path="/user/**"/>
+		<mvc:exclude-mapping path="/user/gologin.action"/>
+		<mvc:exclude-mapping path="/user/register.action"/>
+		<mvc:exclude-mapping path="/user/login.action"/>
+		<!-- 配置具体的拦截器 -->
+		<bean class="com.tt.ssm.handler.HandlerInterceptor1" />
+		</mvc:interceptor>
+		</mvc:interceptors>
+		  <!-- 上传下载 -->
+   	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">  
+        <!-- 上传文件大小上限，单位为字节（10MB） -->
+        <property name="maxUploadSize">  
+            <value>10485760</value>  
+        </property>  
+        <property name="maxInMemorySize">  
+            <value>4096</value>  
+        </property> 
+    </bean>
+</beans>
