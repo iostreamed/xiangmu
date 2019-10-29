@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<constant name="struts.enable.DynamicMethodInvocation" value="true"/>
+	<constant name="struts.custom.i18n.resources" value="message"/>
+	<constant name="struts.i18n.encoding" value="UTF-8"/>
+	<constant name="struts.ui.theme" value="simple"/>
+	
+	<package name="oa" namespace="/" extends="struts-default">
+		<interceptors>
+			<interceptor name="loginInterceptor" class="com.ksd.oa.interceptor.LoginInterpector"></interceptor>
+			<interceptor-stack name="myStack">
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+				<interceptor-ref name="loginInterceptor">
+					<param name="excludeMethods">login,doLogin,logout,rePassword</param>
+				</interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<global-results>
+			<result name="input">/WEB-INF/jsp/error/message.jsp</result>
+		</global-results>
+		<action name="user_*" class="userAction" method="{1}">
+			<result name="login">/WEB-INF/jsp/login.jsp</result>
+			<result name="login_success">/WEB-INF/jsp/index/index.jsp</result>
+        	<result name="login_input">/WEB-INF/jsp/login.jsp</result>
+        	<result name="logout">/WEB-INF/jsp/login.jsp</result>
+        	<result name="personal">/WEB-INF/jsp/user/personal.jsp</result>
+        	<result name="resetPwd">/WEB-INF/jsp/user/modifypwd.jsp</result>
+        	<result name="save_success" type="redirect">user_login</result>
+        	<result name="userlist">/WEB-INF/jsp/user/userlist.jsp</result>
+        	<result name="addUser">/WEB-INF/jsp/user/addUser.jsp</result>
+        	<result name="saveUser" type="redirect">user_userlist</result>
+        	<result name="deleteUser" type="redirect">user_userlist</result>
+        	<result name="deleteFail" type="redirect">user_userlist</result>
+        	<result name="updateUser">/WEB-INF/jsp/user/updateUser.jsp</result>
+        	<result name="saveUpdate" type="redirect">user_userlist</result>
+        	<result name="updateStatus" type="redirect">user_userlist</result>
+        	<result name="updateFail" type="redirect">user_userlist</result>
+        	<result name="rePassword" type="redirect">user_login</result>
+        	<result name="rePasswordFail" type="redirect">user_login</result>
+        	<interceptor-ref name="myStack"></interceptor-ref>
+		</action>
+		<action name="checkImg" class="checkImgAction"></action>
+		<action name="address_*" class="addressAction" method="{1}">
+			<result name="addresslist">/WEB-INF/jsp/address/addresslist.jsp</result>
+			<result name="addAddress">/WEB-INF/jsp/address/addAddress.jsp</result>
+			<result name="saveAddress" type="redirect">address_addresslist</result>
+			<result name="deleteAddress" type="redirect">address_addresslist</result>
+			<result name="updateAddress">/WEB-INF/jsp/address/upadteAddress.jsp</result>
+			<result name="saveUpdate" type="redirect">address_addresslist</result>
+			<interceptor-ref name="myStack"></interceptor-ref>
+		</action>	
+		<action name="meeting_*" class="meetingAction" method="{1}">
+			<result name="meetinglist">/WEB-INF/jsp/meeting/meetinglist.jsp</result>
+			<result name="addMeeting">/WEB-INF/jsp/meeting/addMeeting.jsp</result>
+			<result name="saveMeeting" type="redirect">meeting_meetinglist</result>
+			<result name="deleteMeeting" type="redirect">meeting_meetinglist</result>
+			<result name="updateMeeting">/WEB-INF/jsp/meeting/updateMeeting.jsp</result>
+			<result name="saveUpdate" type="redirect">meeting_meetinglist</result>
+			<interceptor-ref name="myStack"></interceptor-ref>
+		</action>
+		<action name="schedule_*" class="scheduleAction" method="{1}">
+			<result name="schedulelist">/WEB-INF/jsp/schedule/schedulelist.jsp</result>
+			<result name="addSchedule">/WEB-INF/jsp/schedule/addSchedule.jsp</result>
+			<result name="saveSchedule" type="redirect">schedule_schedulelist</result>
+			<result name="deleteSchedule" type="redirect">schedule_schedulelist</result>
+			<result name="updateSchedule">/WEB-INF/jsp/schedule/updateSchedule.jsp</result>
+			<result name="saveUpdate" type="redirect">schedule_schedulelist</result>
+			<interceptor-ref name="myStack"></interceptor-ref>
+		</action>
+		<action name="sms_*" class="smsAction" method="{1}">
+			<result name="smslist">/WEB-INF/jsp/sms/smslist.jsp</result>
+			<result name="addSms">/WEB-INF/jsp/sms/addSms.jsp</result>
+			<result name="sendSuccess" type="redirect">sms_smslist</result>
+			<result name="updateIsRead" type="redirect">sms_smslist</result>
+			<result name="deleteSms" type="redirect">sms_smslist</result>
+			<result name="noReadCount" type="redirect">sms_smslist</result>
+			<interceptor-ref name="myStack"></interceptor-ref>
+		</action>
+		<action name="worklog_*" class="worklogAction" method="{1}">
+			<result name="workloglist">/WEB-INF/jsp/worklog/workloglist.jsp</result>
+			<result name="addWorklog">/WEB-INF/jsp/worklog/addWorklog.jsp</result>
+			<result name="saveWorklog" type="redirect">worklog_workloglist</result>
+			<result name="updateWorklog">/WEB-INF/jsp/worklog/updateWorklog.jsp</result>
+			<result name="saveUpdate" type="redirect">worklog_workloglist</result>
+			<result name="deleteWorklog" type="redirect">worklog_workloglist</result>
+			<interceptor-ref name="myStack"></interceptor-ref>
+		</action>
+		<action name="notice_*" class="noticeAction" method="{1}">
+			<result name="noticelist">/WEB-INF/jsp/notice/noticelist.jsp</result>
+			<result name="addNotice">/WEB-INF/jsp/notice/addNotice.jsp</result>
+			<result name="saveNotice" type="redirect">notice_noticelist</result>
+			<result name="deleteNotice" type="redirect">notice_noticelist</result>
+			<result name="updateNotice">/WEB-INF/jsp/notice/updateNotice.jsp</result>
+			<result name="saveUpdate" type="redirect">notice_noticelist</result>
+			<result name="findByLeast" type="redirect">notice_noticelist</result>
+			<interceptor-ref name="myStack"></interceptor-ref>
+		</action>
+	</package>
+</struts>

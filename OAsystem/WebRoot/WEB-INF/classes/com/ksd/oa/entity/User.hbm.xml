@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping>
+	<class name="com.ksd.oa.entity.User" table="user" dynamic-update="true">
+		<id name="id" column="ID" type="java.lang.Integer">
+			<generator class="increment"></generator>
+		</id>
+		<property name="userName" column="USER_NAME" type="java.lang.String"></property>
+		<property name="password" column="PASSWORD" type="java.lang.String"></property>
+		<property name="userType" column="USER_TYPE" type="java.lang.Integer"></property>
+		<property name="userStatus" column="USER_STATUS" type="java.lang.Integer"></property>
+		<property name="createTime" column="CREATE_TIME" type="java.util.Date"></property>
+		<property name="modifyTime" column="MODIFY_TIME" type="java.util.Date"></property>
+		<property name="loginTime" column="LOGIN_TIME" type="java.util.Date"></property>
+		<property name="nikeName" column="NIKE_NAME" type="java.lang.String"></property>
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping>
+	<class name="com.ksd.oa.entity.Address" table="address" dynamic-update="true">
+		<id name="id" column="ID" type="java.lang.Integer">
+			<generator class="increment"></generator>
+		</id>
+		<property name="userName" column="USER_NAME" type="java.lang.String"></property>
+		<property name="name" column="NAME" type="java.lang.String"></property>
+		<property name="sex" column="SEX" type="java.lang.String"></property>
+		<property name="mobile" column="MOBILE" type="java.lang.String"></property>
+		<property name="qq" column="QQ" type="java.lang.String"></property>
+		<property name="email" column="EMAIL" type="java.lang.String"></property>
+		<property name="address" column="ADDRESS" type="java.lang.String"></property>
+		<property name="postcode" column="POSTCODE" type="java.lang.String"></property>
+	</class>
+</hibernate-mapping>
